@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "d+r+9AytM0w=",
+  "success": true,
+  "projectFilePath": "C:\\Projects\\C#\\KafkaBridgeLayer\\TestProducer\\TestProducer.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\klimash.d\\.nuget\\packages\\confluent.kafka\\2.13.0\\confluent.kafka.2.13.0.nupkg.sha512",
+    "C:\\Users\\klimash.d\\.nuget\\packages\\librdkafka.redist\\2.13.0\\librdkafka.redist.2.13.0.nupkg.sha512",
+    "C:\\Users\\klimash.d\\.nuget\\packages\\system.text.json\\10.0.2\\system.text.json.10.0.2.nupkg.sha512"
+  ],
+  "logs": []
+}
