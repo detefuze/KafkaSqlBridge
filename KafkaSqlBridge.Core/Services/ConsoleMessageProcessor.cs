@@ -1,4 +1,5 @@
 ﻿using KafkaSqlBridge.Core.Models;
+using KafkaSqlBridge.Core.Services.Interfaces;
 using Microsoft.Extensions.Logging;
 
 namespace KafkaSqlBridge.Core.Services;
@@ -14,19 +15,20 @@ public class ConsoleMessageProcessor : IMessageProcessor
         _logger = logger;
     }
 
-    public async Task ProcessMessageAsync(ErpMessage message, CancellationToken cancellationToken)
+    public async Task ProcessProductMessageAsync(ProductMessage message, CancellationToken cancellationToken)
     {
         // Имитация обработки
         await Task.Delay(100, cancellationToken);
 
         Console.WriteLine("=== Обработка сообщения ===");
-        Console.WriteLine($"ID: {message.MessageId}");
-        Console.WriteLine($"Операция: {message.OperationType}");
-        Console.WriteLine($"Сущность: {message.EntityType}:{message.EntityId}");
-        Console.WriteLine($"Время: {message.Timestamp:HH:mm:ss}");
-        Console.WriteLine($"Данные: {message.Payload}");
+        Console.WriteLine($"ProductCode: {message.product_code}");
+        Console.WriteLine($"ProductName: {message.product_name}");
+        Console.WriteLine($"PCS_CA: {message.PCS_CA}");
+        Console.WriteLine($"CA_massa_n: {message.CA_massa_n}");
+        Console.WriteLine($"CA_massa_b: {message.CA_massa_b}");
+        Console.WriteLine($"WipCode: {message.wip_code}");
         Console.WriteLine("===========================\n");
 
-        _logger.LogInformation("Message processed: {MessageId}", message.MessageId);
+        _logger.LogInformation("Message processed: {MessageId}", message.product_code);
     }
 }

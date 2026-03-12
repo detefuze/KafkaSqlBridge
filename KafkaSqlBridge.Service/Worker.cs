@@ -1,4 +1,4 @@
-using KafkaSqlBridge.Core.Services;
+using KafkaSqlBridge.Core.Services.Interfaces;
 
 namespace KafkaSqlBridge.Service;
 

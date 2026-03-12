@@ -1,27 +1,25 @@
 using KafkaSqlBridge.Core.Configuration;
 using KafkaSqlBridge.Core.Services;
+using KafkaSqlBridge.Core.Services.Interfaces;
 using KafkaSqlBridge.Service;
 using Microsoft.Extensions.Options;
 
 // Создаем builder приложения (аналог Spring Boot Application)
 var builder = Host.CreateApplicationBuilder(args);
 
-// 1. Регистрируем конфигурацию
-// Добавляем appsettings.json
+// Регистрируем конфигурацию appsettings.json
 builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
 
-// Биндим настройки на классы 
+// Биндим настройки на класс KafkaSettings 
 builder.Services.Configure<KafkaSettings>(
-    builder.Configuration.GetSection("KafkaSettings")); // KafkaSettings из appsettings.json
+    builder.Configuration.GetSection("KafkaSettings"));
 
-// 2. Регистрируем сервисы (DI)
+// Регистрируем сервисы и WorkerService
 builder.Services.AddSingleton<IMessageProcessor, ConsoleMessageProcessor>();
 builder.Services.AddSingleton<IKafkaConsumerService, KafkaConsumerService>();
-
-// 3. Регистрируем Worker Service
 builder.Services.AddHostedService<Worker>();
 
-// 4. Собираем и запускаем хост
+// Собираем и запускаем хост
 var host = builder.Build();
 
 // Выводим информацию о конфигурации

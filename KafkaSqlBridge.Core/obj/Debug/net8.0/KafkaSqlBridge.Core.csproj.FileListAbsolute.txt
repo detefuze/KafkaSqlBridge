@@ -1,0 +1,13 @@
+C:\Projects\C#\KafkaBridgeLayer\KafkaSqlBridge.Core\bin\Debug\net8.0\KafkaSqlBridge.Core.deps.json
+C:\Projects\C#\KafkaBridgeLayer\KafkaSqlBridge.Core\bin\Debug\net8.0\KafkaSqlBridge.Core.dll
+C:\Projects\C#\KafkaBridgeLayer\KafkaSqlBridge.Core\bin\Debug\net8.0\KafkaSqlBridge.Core.pdb
+C:\Projects\C#\KafkaBridgeLayer\KafkaSqlBridge.Core\obj\Debug\net8.0\KafkaSqlBridge.Core.csproj.AssemblyReference.cache
+C:\Projects\C#\KafkaBridgeLayer\KafkaSqlBridge.Core\obj\Debug\net8.0\KafkaSqlBridge.Core.GeneratedMSBuildEditorConfig.editorconfig
+C:\Projects\C#\KafkaBridgeLayer\KafkaSqlBridge.Core\obj\Debug\net8.0\KafkaSqlBridge.Core.AssemblyInfoInputs.cache
+C:\Projects\C#\KafkaBridgeLayer\KafkaSqlBridge.Core\obj\Debug\net8.0\KafkaSqlBridge.Core.AssemblyInfo.cs
+C:\Projects\C#\KafkaBridgeLayer\KafkaSqlBridge.Core\obj\Debug\net8.0\KafkaSqlBridge.Core.csproj.CoreCompileInputs.cache
+C:\Projects\C#\KafkaBridgeLayer\KafkaSqlBridge.Core\obj\Debug\net8.0\KafkaSqlBridge.Core.sourcelink.json
+C:\Projects\C#\KafkaBridgeLayer\KafkaSqlBridge.Core\obj\Debug\net8.0\KafkaSqlBridge.Core.dll
+C:\Projects\C#\KafkaBridgeLayer\KafkaSqlBridge.Core\obj\Debug\net8.0\refint\KafkaSqlBridge.Core.dll
+C:\Projects\C#\KafkaBridgeLayer\KafkaSqlBridge.Core\obj\Debug\net8.0\KafkaSqlBridge.Core.pdb
+C:\Projects\C#\KafkaBridgeLayer\KafkaSqlBridge.Core\obj\Debug\net8.0\ref\KafkaSqlBridge.Core.dll

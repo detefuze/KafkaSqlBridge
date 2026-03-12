@@ -1,6 +1,7 @@
 ﻿using Confluent.Kafka;
 using KafkaSqlBridge.Core.Configuration;
 using KafkaSqlBridge.Core.Models;
+using KafkaSqlBridge.Core.Services.Interfaces;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System.Text.Json;
@@ -28,11 +29,11 @@ public class KafkaConsumerService : IKafkaConsumerService, IDisposable
         _kafkaSettings = kafkaSettings.Value;
         _messageProcessor = messageProcessor;
 
-        InitializeConsumer();
+        _consumer = InitializeConsumer();
     }
 
     // Метод инициализации консьюмера
-    private void InitializeConsumer()
+    private IConsumer<Ignore, string> InitializeConsumer()
     {
         // Конфигурация консьюмера
         var config = new ConsumerConfig()
@@ -48,6 +49,8 @@ public class KafkaConsumerService : IKafkaConsumerService, IDisposable
             .SetErrorHandler(OnError)
             .SetLogHandler(OnLog)
             .Build();
+
+        return _consumer;
     }
     // Логирование ошибок консьюмера
     private void OnError(IConsumer<Ignore, string> consumer, Error error)
@@ -131,7 +134,7 @@ public class KafkaConsumerService : IKafkaConsumerService, IDisposable
         try
         {
             // Десериализация JSON-строки в объект ErpMessage
-            var message = JsonSerializer.Deserialize<ErpMessage>(consumeResult.Message.Value);
+            var message = JsonSerializer.Deserialize<ProductMessage>(consumeResult.Message.Value);
 
             if (message == null)
             {
@@ -142,14 +145,14 @@ public class KafkaConsumerService : IKafkaConsumerService, IDisposable
 
             if (!message.IsValid())
             {
-                _logger.LogWarning("Invalid message received: {MessageId}", message.MessageId);
+                _logger.LogWarning("Invalid message received: {MessageId}", message.product_code);
                 return;
             }
 
             _logger.LogInformation("Processing: {Message}", message.ToString());
 
             // Передача сообщения процессору для дальнейшей обработки (ConsoleMessageProcessor)
-            await _messageProcessor.ProcessMessageAsync(message, cancellationToken);
+            await _messageProcessor.ProcessProductMessageAsync(message, cancellationToken);
 
             if (!_kafkaSettings.EnableAutoCommit)
             {
