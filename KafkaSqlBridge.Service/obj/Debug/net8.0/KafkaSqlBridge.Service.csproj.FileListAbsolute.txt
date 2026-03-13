@@ -49,6 +49,7 @@ C:\Projects\C#\KafkaBridgeLayer\KafkaSqlBridge.Service\bin\Debug\net8.0\Microsof
 C:\Projects\C#\KafkaBridgeLayer\KafkaSqlBridge.Service\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 C:\Projects\C#\KafkaBridgeLayer\KafkaSqlBridge.Service\bin\Debug\net8.0\Microsoft.IdentityModel.Tokens.dll
 C:\Projects\C#\KafkaBridgeLayer\KafkaSqlBridge.Service\bin\Debug\net8.0\Microsoft.SqlServer.Server.dll
+C:\Projects\C#\KafkaBridgeLayer\KafkaSqlBridge.Service\bin\Debug\net8.0\Npgsql.dll
 C:\Projects\C#\KafkaBridgeLayer\KafkaSqlBridge.Service\bin\Debug\net8.0\System.ClientModel.dll
 C:\Projects\C#\KafkaBridgeLayer\KafkaSqlBridge.Service\bin\Debug\net8.0\System.Configuration.ConfigurationManager.dll
 C:\Projects\C#\KafkaBridgeLayer\KafkaSqlBridge.Service\bin\Debug\net8.0\System.Diagnostics.EventLog.dll

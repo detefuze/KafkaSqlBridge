@@ -1,6 +1,7 @@
 using KafkaSqlBridge.Core.Configuration;
+using KafkaSqlBridge.Core.Handlers;
+using KafkaSqlBridge.Core.Interfaces;
 using KafkaSqlBridge.Core.Services;
-using KafkaSqlBridge.Core.Services.Interfaces;
 using KafkaSqlBridge.Service;
 using Microsoft.Extensions.Options;
 
@@ -14,9 +15,15 @@ builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnC
 builder.Services.Configure<KafkaSettings>(
     builder.Configuration.GetSection("KafkaSettings"));
 
+// Передаем connectionString
+var pmsSettings = builder.Configuration.GetSection("PMSDatabaseSettings").Get<PMSDatabaseSettings>();
+
+var connectionString = pmsSettings?.ConnectionString;
+
 // Регистрируем сервисы и WorkerService
-builder.Services.AddSingleton<IMessageProcessor, ConsoleMessageProcessor>();
+builder.Services.AddSingleton<IMessageHandler, ProductMessageHandler>();
 builder.Services.AddSingleton<IKafkaConsumerService, KafkaConsumerService>();
+builder.Services.AddSingleton<IDatabaseService>(ds => new DatabaseService(connectionString));
 builder.Services.AddHostedService<Worker>();
 
 // Собираем и запускаем хост
@@ -26,8 +33,6 @@ var host = builder.Build();
 var kafkaSettings = host.Services.GetRequiredService<IOptions<KafkaSettings>>().Value;
 Console.WriteLine("=== Kafka SQL Bridge Service ===");
 Console.WriteLine($"Kafka: {kafkaSettings.BootstrapServers}");
-Console.WriteLine($"Topic: {kafkaSettings.Topic}");
-Console.WriteLine($"Group: {kafkaSettings.GroupId}");
 Console.WriteLine("================================\n");
 
 await host.RunAsync();

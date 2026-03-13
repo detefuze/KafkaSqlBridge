@@ -1,4 +1,4 @@
-﻿namespace KafkaSqlBridge.Core.Services.Interfaces;
+﻿namespace KafkaSqlBridge.Core.Interfaces;
 
 /// Интерфейс для Kafka Consumer
 public interface IKafkaConsumerService

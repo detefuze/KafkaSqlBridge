@@ -12,13 +12,13 @@
     <PackageReference Include="Microsoft.Data.SqlClient" Version="6.1.4" />
 	  
 	  
-    <!-- Microsoft пакеты - повышаем до 8.0.2 для совместимости -->
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.3" />
     <PackageReference Include="Microsoft.Extensions.Options" Version="8.0.2" />
     <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="8.0.1" />
+    <PackageReference Include="Npgsql" Version="8.0.2" />
   </ItemGroup>
 
 

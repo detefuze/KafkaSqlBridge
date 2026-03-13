@@ -1,20 +1,21 @@
 ﻿using Confluent.Kafka;
 using KafkaSqlBridge.Core.Configuration;
+using KafkaSqlBridge.Core.Interfaces;
 using KafkaSqlBridge.Core.Models;
-using KafkaSqlBridge.Core.Services.Interfaces;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System.Text.Json;
 using System.Text.RegularExpressions;
+using KafkaSqlBridge.Core.Handlers;
 
 namespace KafkaSqlBridge.Core.Services;
 
 public class KafkaConsumerService : IKafkaConsumerService, IDisposable
 {
-    private readonly ILogger<KafkaConsumerService> _logger; // логгер
+    private readonly ILogger<KafkaConsumerService> _logger; 
     private readonly KafkaSettings _kafkaSettings; // конфигурация кафки
-    private readonly IMessageProcessor _messageProcessor; // интерфейс обработки сообщений
-    private IConsumer<Ignore, string> _consumer;
+    private readonly Dictionary<string, IMessageHandler> _handlers; // интерфейсы обработки сообщений
+    private IConsumer<Ignore, string> _consumer; 
     private Task? _consumingTask;
     private CancellationTokenSource? _cancellationTokenSource;
 
@@ -23,16 +24,16 @@ public class KafkaConsumerService : IKafkaConsumerService, IDisposable
     public KafkaConsumerService(
         ILogger<KafkaConsumerService> logger,
         IOptions<KafkaSettings> kafkaSettings,
-        IMessageProcessor messageProcessor)
+        IEnumerable<IMessageHandler> handlers)
     {
         _logger = logger;
         _kafkaSettings = kafkaSettings.Value;
-        _messageProcessor = messageProcessor;
+        _handlers = handlers.ToDictionary(handler => handler.Topic);
 
         _consumer = InitializeConsumer();
     }
 
-    // Метод инициализации консьюмера
+    // Инициализация консьюмера
     private IConsumer<Ignore, string> InitializeConsumer()
     {
         // Конфигурация консьюмера
@@ -66,10 +67,10 @@ public class KafkaConsumerService : IKafkaConsumerService, IDisposable
 
     public async Task StartConsumingAsync(CancellationToken cancellationToken)
     {
-        _logger.LogInformation("Starting Kafka consumer for topic: {Topic}", _kafkaSettings.Topic);
+        _logger.LogInformation("Starting Kafka consumer for topics: {Topics}", string.Join(", ", _kafkaSettings.Topics));
 
-        // Подписка на топик
-        _consumer.Subscribe(_kafkaSettings.Topic);
+        // Подписка на топики из конфигурации
+        _consumer.Subscribe(_kafkaSettings.Topics);
 
         _cancellationTokenSource = CancellationTokenSource
             .CreateLinkedTokenSource(cancellationToken);
@@ -98,7 +99,7 @@ public class KafkaConsumerService : IKafkaConsumerService, IDisposable
 
                     if (consumeResult.IsPartitionEOF)
                     {
-                        _logger.LogTrace("Reached end of partition");
+                        _logger.LogTrace("Reached end of partition {Topic}:{Partition}", consumeResult.Topic, consumeResult.Partition);
                         continue;
                     }
 
@@ -126,38 +127,38 @@ public class KafkaConsumerService : IKafkaConsumerService, IDisposable
     private async Task ProcessConsumeResult(ConsumeResult<Ignore, string> consumeResult,
         CancellationToken cancellationToken)
     {
-        _logger.LogDebug("Received message from {Topic}[{Partition}]@{Offset}",
+        var topic = consumeResult.Topic;
+
+        _logger.LogDebug("Получено сообщение из топика {Topic}, партиции [{Partition}] @{Offset}",
             consumeResult.Topic,
             consumeResult.Partition,
             consumeResult.Offset);
 
         try
         {
-            // Десериализация JSON-строки в объект ErpMessage
-            var message = JsonSerializer.Deserialize<ProductMessage>(consumeResult.Message.Value);
-
-            if (message == null)
+            foreach (var h in _handlers)
             {
-                _logger.LogWarning("Failed to deserialize message: {RawMessage}",
-                    consumeResult.Message.Value);
-                return;
+                _logger.LogDebug("Хендлеры: топик {Topic}, тип {Type}", h.Key, h.Value);
             }
-
-            if (!message.IsValid())
+            if (_handlers.TryGetValue(topic, out var handler))
             {
-                _logger.LogWarning("Invalid message received: {MessageId}", message.product_code);
-                return;
+                _logger.LogTrace("Найден обработчик {Handler} для топика {Topic}",
+                    handler.GetType().Name, topic);
+
+                // Передача сообщения в хендлер
+                await handler.HandleAsync(consumeResult.Message.Value, cancellationToken);
+
+                if (!_kafkaSettings.EnableAutoCommit)
+                {
+                    _consumer.StoreOffset(consumeResult);
+                    _logger.LogTrace("Offset {Offset} сохранен для топика {Topic}", consumeResult.Offset, topic);
+                }
+
+                _logger.LogDebug("Сообщение из топика {Topic} обработано успешно", topic);
             }
-
-            _logger.LogInformation("Processing: {Message}", message.ToString());
-
-            // Передача сообщения процессору для дальнейшей обработки (ConsoleMessageProcessor)
-            await _messageProcessor.ProcessProductMessageAsync(message, cancellationToken);
-
-            if (!_kafkaSettings.EnableAutoCommit)
+            else
             {
-                _consumer.StoreOffset(consumeResult);
-                _logger.LogTrace("Offset stored for {Offset}", consumeResult.Offset);
+                _logger.LogWarning("Нет зарегистрированного обработчика для топика {Topuc}", topic);
             }
         }
         catch (JsonException ex)
