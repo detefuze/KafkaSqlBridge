@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Security;
-using Npgsql;
+using Microsoft.Data.SqlClient;
 using Dapper;
 
 namespace KafkaSqlBridge.Core.Services
@@ -21,29 +21,21 @@ namespace KafkaSqlBridge.Core.Services
         public async Task ProcessProductMessageAsync(ProductMessage message)
         {
             const string sql = @"
-                INSERT INTO products (
-                    product_code, 
-                    product_name, 
-                    pcs_ca, 
-                    ca_massa_n, 
-                    ca_massa_b, 
-                    wip_code
-                ) VALUES (
-                    @product_code, 
-                    @product_name, 
-                    @pcs_ca, 
-                    @ca_massa_n, 
-                    @ca_massa_b, 
-                    @wip_code
-                )
-                ON CONFLICT (product_code) DO UPDATE SET
-                    product_name = EXCLUDED.product_name,
-                    pcs_ca = EXCLUDED.pcs_ca,
-                    ca_massa_n = EXCLUDED.ca_massa_n,
-                    ca_massa_b = EXCLUDED.ca_massa_b,
-                    wip_code = EXCLUDED.wip_code";
+            MERGE INTO products AS target
+            USING (SELECT @product_code AS product_code) AS source
+            ON target.product_code = source.product_code
+            WHEN MATCHED THEN
+                UPDATE SET 
+                    product_name = @product_name,
+                    PCS_CA = @pcs_ca,
+                    CA_massa_n = @ca_massa_n,
+                    CA_massa_b = @ca_massa_b,
+                    wip_code = @wip_code
+            WHEN NOT MATCHED THEN
+                INSERT (product_code, product_name, PCS_CA, CA_massa_n, CA_massa_b, wip_code)
+                VALUES (@product_code, @product_name, @pcs_ca, @ca_massa_n, @ca_massa_b, @wip_code);";
 
-            using var connection = new NpgsqlConnection(_connectionString);
+            using var connection = new SqlConnection(_connectionString);
             await connection.OpenAsync();
             await connection.ExecuteAsync(sql, message);
 
