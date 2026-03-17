@@ -1,8 +1,5 @@
 <Solution>
-  <Folder Name="/Элементы решения/">
-    <File Path="docker-compose.yml" />
-  </Folder>
+  <Folder Name="/Элементы решения/" />
   <Project Path="KafkaSqlBridge.Core/KafkaSqlBridge.Core.csproj" />
   <Project Path="KafkaSqlBridge.Service/KafkaSqlBridge.Service.csproj" />
-  <Project Path="TestProducer/TestProducer.csproj" />
 </Solution>

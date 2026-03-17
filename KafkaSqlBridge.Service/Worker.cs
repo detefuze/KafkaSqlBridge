@@ -1,4 +1,4 @@
-using KafkaSqlBridge.Core.Services;
+using KafkaSqlBridge.Core.Interfaces;
 
 namespace KafkaSqlBridge.Service;
 
@@ -21,10 +21,9 @@ public class Worker : BackgroundService
 
         try
         {
-            // Запускаем Kafka Consumer
+            // Запуск Kafka Consumer
             await _kafkaConsumerService.StartConsumingAsync(stoppingToken);
 
-            // Держим сервис активным
             while (!stoppingToken.IsCancellationRequested)
             {
                 await Task.Delay(1000, stoppingToken);
@@ -43,7 +42,6 @@ public class Worker : BackgroundService
     {
         _logger.LogInformation("Stopping worker service gracefully...");
 
-        // Останавливаем Kafka Consumer
         _kafkaConsumerService.StopConsuming();
 
         await base.StopAsync(cancellationToken);
