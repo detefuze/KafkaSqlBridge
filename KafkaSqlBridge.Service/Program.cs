@@ -22,6 +22,7 @@ var connectionString = pmsSettings?.ConnectionString;
 
 // Регистрируем сервисы и WorkerService
 builder.Services.AddSingleton<IMessageHandler, ProductMessageHandler>();
+builder.Services.AddSingleton<IMessageHandler, MaterialMessageHandler>();
 builder.Services.AddSingleton<IKafkaConsumerService, KafkaConsumerService>();
 builder.Services.AddSingleton<IDatabaseService>(ds => new DatabaseService(connectionString));
 builder.Services.AddHostedService<Worker>();

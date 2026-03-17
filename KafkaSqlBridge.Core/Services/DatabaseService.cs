@@ -6,6 +6,7 @@ using System.Text;
 using System.Security;
 using Microsoft.Data.SqlClient;
 using Dapper;
+using System.ComponentModel;
 
 namespace KafkaSqlBridge.Core.Services
 {
@@ -41,9 +42,23 @@ namespace KafkaSqlBridge.Core.Services
 
         }
 
-        public async Task ProcessMaterialMessageAsync(ProductMessage message)
+        public async Task ProcessMaterialMessageAsync(MaterialMessage message)
         {
-             
+            const string sql = @"
+            MERGE INTO pms_materials AS target
+            USING (SELECT @material_code AS material_code) AS source
+            ON target.material_code = source.material_code
+            WHEN MATCHED THEN
+                UPDATE SET 
+                    material_name = @material_name,
+                    material_type = @material_type
+            WHEN NOT MATCHED THEN
+                INSERT (material_code, material_name, material_type)
+                VALUES (@material_code, @material_name, @material_type);";
+
+            using var connection = new SqlConnection(_connectionString);
+            await connection.OpenAsync();
+            await connection.ExecuteAsync(sql, message);
         }
     }
 }

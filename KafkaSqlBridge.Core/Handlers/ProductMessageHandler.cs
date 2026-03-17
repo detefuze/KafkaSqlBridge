@@ -7,6 +7,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
+using System.Diagnostics;
 
 namespace KafkaSqlBridge.Core.Handlers
 {
@@ -16,6 +17,7 @@ namespace KafkaSqlBridge.Core.Handlers
 
         private readonly IDatabaseService _databaseService;
         private readonly ILogger<ProductMessageHandler> _logger;
+        private readonly Stopwatch _stopwatch = new();
 
         public ProductMessageHandler(IDatabaseService databaseService, ILogger<ProductMessageHandler> logger)
         {
@@ -25,6 +27,7 @@ namespace KafkaSqlBridge.Core.Handlers
 
         public async Task HandleAsync(string messageJson, CancellationToken cancellationToken)
         {
+            _stopwatch.Restart();
             try
             {
                 var product = JsonSerializer.Deserialize<ProductMessage>(messageJson);
@@ -32,16 +35,21 @@ namespace KafkaSqlBridge.Core.Handlers
                 if (product?.IsValid() == true)
                 {
                     await _databaseService.ProcessProductMessageAsync(product);
-                    _logger.LogInformation("Product {Code} processed", product.product_code);
+
+                    _stopwatch.Stop();
+
+                    _logger.LogInformation("Сообщение {ProductCode} обработано успешно за {ElapsedMs} мс", 
+                        product.product_code,
+                        _stopwatch.ElapsedMilliseconds);      
                 }
                 else
                 {
-                    _logger.LogWarning("Invalid product message received");
+                    _logger.LogWarning("Получено невалидное сообщение: {Message}", messageJson);
                 }
             }
             catch (JsonException ex) 
             {
-                _logger.LogError(ex, "Failed to deserialize message");
+                _logger.LogError(ex, "Не получилось десериализовать сообщение");
                 throw;
             }
         }

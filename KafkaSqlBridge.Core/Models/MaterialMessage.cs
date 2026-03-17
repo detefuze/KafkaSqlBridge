@@ -13,15 +13,36 @@ namespace KafkaSqlBridge.Core.Models
         public string material_name { get; set; } = String.Empty;
         public int material_type { get; set; }
 
+        public MaterialType enumMaterialType
+        {
+            get
+            {
+                return material_type switch
+                {
+                    1 => MaterialType.Raw,
+                    2 => MaterialType.Packaging,
+                    _ => MaterialType.Unknown
+                };
+            }
+        }
+
         public bool IsValid()
         {
             return !string.IsNullOrEmpty(material_code) &&
-                   !string.IsNullOrEmpty(material_name);
+                   !string.IsNullOrEmpty(material_name) &&
+                   (enumMaterialType != MaterialType.Unknown);
         }
 
         public override string ToString()
         {
             return $"Message[{material_code}]: {material_name}: {material_type}";
         }
+    }
+ 
+    public enum MaterialType
+    {
+        Unknown = 0,
+        Raw = 1,
+        Packaging = 2
     }
 }
