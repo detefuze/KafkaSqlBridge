@@ -21,6 +21,7 @@ namespace KafkaSqlBridge.Core.Models
                 {
                     1 => MaterialType.Raw,
                     2 => MaterialType.Packaging,
+                    3 => MaterialType.SemiFinishedProduct,
                     _ => MaterialType.Unknown
                 };
             }
@@ -43,6 +44,7 @@ namespace KafkaSqlBridge.Core.Models
     {
         Unknown = 0,
         Raw = 1,
-        Packaging = 2
+        Packaging = 2,
+        SemiFinishedProduct = 3
     }
 }
