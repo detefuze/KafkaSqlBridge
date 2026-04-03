@@ -28,7 +28,7 @@ namespace KafkaSqlBridge.Core.Handlers
 
         public async Task HandleAsync(string messageJson, CancellationToken cancellationToken)
         {
-            _stopwatch.Restart();
+            //_stopwatch.Restart();
             try
             {
                 var material = JsonSerializer.Deserialize<MaterialMessage>(messageJson);
@@ -37,11 +37,11 @@ namespace KafkaSqlBridge.Core.Handlers
                 {
                     await _databaseService.ProcessMaterialMessageAsync(material);
 
-                    _stopwatch.Stop();
+                    //_stopwatch.Stop();
 
-                    _logger.LogInformation("Сообщение {MaterialCode} обработано за {ElapsedMs} мс",
-                        material.material_code,
-                        _stopwatch.ElapsedMilliseconds);
+                    //_logger.LogInformation("Сообщение {MaterialCode} обработано за {ElapsedMs} мс",
+                    //    material.material_code,
+                    //    _stopwatch.ElapsedMilliseconds);
                 }
                 else
                 {

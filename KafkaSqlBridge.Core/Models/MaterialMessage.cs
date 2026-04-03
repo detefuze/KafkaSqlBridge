@@ -10,7 +10,7 @@ namespace KafkaSqlBridge.Core.Models
     public class MaterialMessage
     {
         public string material_code { get; set; } = string.Empty;
-        public string material_name { get; set; } = String.Empty;
+        public string material_name { get; set; } = string.Empty;
         public int material_type { get; set; }
 
         public MaterialType enumMaterialType

@@ -1,0 +1,25 @@
+# Этап 1: сборка
+FROM bitnami/dotnet-sdk:latest AS build
+WORKDIR /src
+
+COPY ["KafkaSqlBridge.Service/KafkaSqlBridge.Service.csproj", "KafkaSqlBridge.Service/"]
+COPY ["KafkaSqlBridge.Core/KafkaSqlBridge.Core.csproj", "KafkaSqlBridge.Core/"]
+
+# Восстановление пакетов NuGet
+RUN dotnet restore "KafkaSqlBridge.Service/KafkaSqlBridge.Service.csproj"
+
+# Копирование кода
+COPY . .
+
+# Публикация
+RUN dotnet publish "KafkaSqlBridge.Service/KafkaSqlBridge.Service.csproj" -c Release -o /app/publish
+
+# Запуск
+FROM bitnami/dotnet-sdk:latest AS runtime
+WORKDIR /app
+
+# Копирование собранного приложения в директорию /src
+COPY --from=build /app/publish .
+
+# Точка входа
+ENTRYPOINT ["dotnet", "KafkaSqlBridge.Service.dll"]

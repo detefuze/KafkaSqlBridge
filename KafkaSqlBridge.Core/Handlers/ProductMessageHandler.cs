@@ -27,7 +27,7 @@ namespace KafkaSqlBridge.Core.Handlers
 
         public async Task HandleAsync(string messageJson, CancellationToken cancellationToken)
         {
-            _stopwatch.Restart();
+            //_stopwatch.Restart();
             try
             {
                 var product = JsonSerializer.Deserialize<ProductMessage>(messageJson);
@@ -36,11 +36,11 @@ namespace KafkaSqlBridge.Core.Handlers
                 {
                     await _databaseService.ProcessProductMessageAsync(product);
 
-                    _stopwatch.Stop();
+                    //_stopwatch.Stop();
 
-                    _logger.LogInformation("Сообщение {ProductCode} обработано успешно за {ElapsedMs} мс", 
-                        product.product_code,
-                        _stopwatch.ElapsedMilliseconds);      
+                    //_logger.LogInformation("Сообщение {ProductCode} обработано успешно за {ElapsedMs} мс", 
+                    //    product.product_code,
+                    //    _stopwatch.ElapsedMilliseconds);      
                 }
                 else
                 {

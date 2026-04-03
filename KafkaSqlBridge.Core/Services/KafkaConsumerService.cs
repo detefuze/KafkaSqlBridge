@@ -14,12 +14,14 @@ namespace KafkaSqlBridge.Core.Services;
 public class KafkaConsumerService : IKafkaConsumerService, IDisposable
 {
     private readonly ILogger<KafkaConsumerService> _logger; 
-    private readonly KafkaSettings _kafkaSettings; // Rонфигурация кафки
+    private readonly KafkaSettings _kafkaSettings; // Конфигурация кафки
     private readonly Dictionary<string, IMessageHandler> _handlers; // Интерфейсы обработки сообщений
-    private IConsumer<Ignore, string> _consumer; 
-    private Task? _consumingTask;
+    private List<IConsumer<Ignore, string>> _consumers; 
+    private List<Task> _consumingTasks;
     private CancellationTokenSource? _cancellationTokenSource;
     private readonly Stopwatch _stopwatch = new(); // счетчик времени обработки сообщения
+    private long _totalMs;
+
 
   
     public KafkaConsumerService(
@@ -31,28 +33,39 @@ public class KafkaConsumerService : IKafkaConsumerService, IDisposable
         _kafkaSettings = kafkaSettings.Value;
         _handlers = handlers.ToDictionary(handler => handler.Topic);
 
-        _consumer = InitializeConsumer();
+        _consumingTasks = new List<Task>();
+        _consumers = InitializeConsumers();
     }
 
     // Инициализация консьюмера
-    private IConsumer<Ignore, string> InitializeConsumer()
+    private List<IConsumer<Ignore, string>> InitializeConsumers()
     {
-        // Конфигурация консьюмера
-        var config = new ConsumerConfig()
+        _consumers = new List<IConsumer<Ignore, string>>();
+
+        foreach (var topic in _handlers.Keys)
         {
-            BootstrapServers = _kafkaSettings.BootstrapServers,
-            GroupId = _kafkaSettings.GroupId,
-            AutoOffsetReset = AutoOffsetReset.Earliest,
-            EnableAutoCommit = _kafkaSettings.EnableAutoCommit,
-            EnableAutoOffsetStore = false,
-            AllowAutoCreateTopics = false
-        };
-        _consumer = new ConsumerBuilder<Ignore, string>(config)
+
+            // Конфигурация консьюмера
+            var config = new ConsumerConfig()
+            {
+                BootstrapServers = _kafkaSettings.BootstrapServers,
+                GroupId = $"pms-bridge-group-{topic}",
+                AutoOffsetReset = AutoOffsetReset.Earliest,
+                EnableAutoCommit = _kafkaSettings.EnableAutoCommit,
+                EnableAutoOffsetStore = false,
+                AllowAutoCreateTopics = false
+            };
+
+            var consumer = new ConsumerBuilder<Ignore, string>(config)
             .SetErrorHandler(OnError)
             .SetLogHandler(OnLog)
             .Build();
 
-        return _consumer;
+            consumer.Subscribe(topic);
+            _consumers.Add(consumer);
+        }
+
+            return _consumers;
     }
     // Логирование ошибок консьюмера
     private void OnError(IConsumer<Ignore, string> consumer, Error error)
@@ -71,18 +84,22 @@ public class KafkaConsumerService : IKafkaConsumerService, IDisposable
         _logger.LogInformation("Старт Kafka консьюмера, прослушивание топиков: {Topics}", string.Join(", ", _kafkaSettings.Topics));
 
         // Подписка на топики из конфигурации
-        _consumer.Subscribe(_kafkaSettings.Topics);
+        //_consumer.Subscribe(_kafkaSettings.Topics);
 
         _cancellationTokenSource = CancellationTokenSource
             .CreateLinkedTokenSource(cancellationToken);
 
-        // Фоновая задача потребления сообщений
-        _consumingTask = Task.Run(() => ConsumeMessages(_cancellationTokenSource.Token));
+        // Запуск задач для каждого консьюмера
+        foreach (var consumer in _consumers)
+        {
+            var task = Task.Run(() => ConsumeMessages(consumer, _cancellationTokenSource.Token));
+            _consumingTasks.Add(task);
+        }
 
         await Task.CompletedTask;
     }
 
-    private async Task ConsumeMessages(CancellationToken cancellationToken)
+    private async Task ConsumeMessages(IConsumer<Ignore, string> consumer, CancellationToken cancellationToken)
     {
         _logger.LogInformation("Старт Консьюмера. Ожидание сообщений...");
 
@@ -93,7 +110,7 @@ public class KafkaConsumerService : IKafkaConsumerService, IDisposable
                 try
                 {
                     // Таймаут ожидания сообщения 1000 мс
-                    var consumeResult = _consumer.Consume(TimeSpan.FromMilliseconds(1000));
+                    var consumeResult = consumer.Consume(TimeSpan.FromMilliseconds(1000));
 
                     if (consumeResult == null) continue;
 
@@ -103,7 +120,7 @@ public class KafkaConsumerService : IKafkaConsumerService, IDisposable
                         continue;
                     }
 
-                    await ProcessConsumeResult(consumeResult, cancellationToken);
+                    await ProcessConsumeResult(consumer, consumeResult, cancellationToken);
                 }
                 catch (ConsumeException ex)
                 {
@@ -120,11 +137,11 @@ public class KafkaConsumerService : IKafkaConsumerService, IDisposable
         finally
         {
             _logger.LogInformation("Остановка консьюмера");
-            _consumer.Close();
+            consumer.Close();
         }
     }
 
-    private async Task ProcessConsumeResult(ConsumeResult<Ignore, string> consumeResult,
+    private async Task ProcessConsumeResult(IConsumer<Ignore, string> consumer, ConsumeResult<Ignore, string> consumeResult,
         CancellationToken cancellationToken)
     {
         _stopwatch.Restart();
@@ -148,7 +165,7 @@ public class KafkaConsumerService : IKafkaConsumerService, IDisposable
 
                 if (!_kafkaSettings.EnableAutoCommit)
                 {
-                    _consumer.StoreOffset(consumeResult); // для теста
+                    consumer.StoreOffset(consumeResult); // для теста
                     // _consumer.Commit(consumeResult); // сохранение offset
                     _logger.LogTrace("Offset {Offset} сохранен для топика {Topic}", consumeResult.Offset, topic);
                 }
@@ -158,8 +175,12 @@ public class KafkaConsumerService : IKafkaConsumerService, IDisposable
                 _logger.LogWarning("Нет зарегистрированного обработчика для топика {Topic}", topic);
             }
             _stopwatch.Stop();
-            _logger.LogInformation("Полное время обработки сообщения: {ElapsedMs} мс",
+            _logger.LogInformation("Полное время обработки сообщения {Topic} : {Offset}: {ElapsedMs} мс",
+                        consumeResult.Topic,
+                        consumeResult.Offset,
                         _stopwatch.ElapsedMilliseconds);
+
+            _totalMs += _stopwatch.ElapsedMilliseconds;
         }
         catch (JsonException ex)
         {
@@ -175,13 +196,21 @@ public class KafkaConsumerService : IKafkaConsumerService, IDisposable
     public void StopConsuming()
     {
         _cancellationTokenSource?.Cancel();
-        _logger.LogInformation("Остановка Kafka консьюмера...");
+        _logger.LogInformation("Остановка Kafka консьюмеров...");
+
+        Task.WhenAll(_consumingTasks).Wait(TimeSpan.FromSeconds(10));
+
+        _logger.LogInformation("Среднее время обработки всех сообщений: {totalMS}", _totalMs);
+        _totalMs = 0;
     }
 
     // Освобождение ресурсов
     public void Dispose()
     {
-        _consumer?.Dispose();
+       foreach (var consumer in _consumers)
+        {
+            consumer.Dispose();
+        }
         _cancellationTokenSource?.Dispose();
         GC.SuppressFinalize(this);
     }
