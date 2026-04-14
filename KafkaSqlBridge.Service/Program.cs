@@ -3,6 +3,7 @@ using KafkaSqlBridge.Core.Handlers;
 using KafkaSqlBridge.Core.Interfaces;
 using KafkaSqlBridge.Core.Services;
 using KafkaSqlBridge.Service;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 // Создаем builder приложения (аналог Spring Boot Application)
@@ -21,10 +22,16 @@ var pmsSettings = builder.Configuration.GetSection("PMSDatabaseSettings").Get<PM
 var connectionString = pmsSettings?.ConnectionString;
 
 // Регистрируем сервисы и WorkerService
-builder.Services.AddSingleton<IMessageHandler, ProductMessageHandler>();
-builder.Services.AddSingleton<IMessageHandler, MaterialMessageHandler>();
+//builder.Services.AddSingleton<IMessageHandler, ProductMessageHandler>();
+//builder.Services.AddSingleton<IMessageHandler, MaterialMessageHandler>();
+builder.Services.AddSingleton<IMessageHandler, ProductBatchHandler>();
+builder.Services.AddSingleton<IMessageHandler, MaterialBatchHandler>();
 builder.Services.AddSingleton<IKafkaConsumerService, KafkaConsumerService>();
-builder.Services.AddSingleton<IDatabaseService>(ds => new DatabaseService(connectionString));
+
+builder.Services.AddSingleton<IDatabaseService>(sp => {
+    var logger = sp.GetRequiredService<ILogger<DatabaseService>>();
+    return new DatabaseService(connectionString, logger);
+    });
 builder.Services.AddHostedService<Worker>();
 
 // Собираем и запускаем хост

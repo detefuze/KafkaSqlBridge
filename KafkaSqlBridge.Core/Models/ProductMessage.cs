@@ -1,6 +1,7 @@
 ﻿namespace KafkaSqlBridge.Core.Models;
+using KafkaSqlBridge.Core.Interfaces;
 
-public class ProductMessage
+public class ProductMessage : IValidatable
 {
     public string product_code { get; set; } = string.Empty;
 
@@ -17,8 +18,7 @@ public class ProductMessage
     public bool IsValid()
     {
         return !string.IsNullOrEmpty(product_code) &&
-               !string.IsNullOrEmpty(product_name) &&
-               !string.IsNullOrEmpty(wip_code);
+               !string.IsNullOrEmpty(product_name);
     }
 
     public override string ToString()

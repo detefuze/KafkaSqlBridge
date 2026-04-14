@@ -4,13 +4,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using KafkaSqlBridge.Core.Interfaces;
 
 namespace KafkaSqlBridge.Core.Models
 {
-    public class MaterialMessage
+    public class MaterialMessage : IValidatable
     {
         public string material_code { get; set; } = string.Empty;
-        public string material_name { get; set; } = String.Empty;
+        public string material_name { get; set; } = string.Empty;
         public int material_type { get; set; }
 
         public MaterialType enumMaterialType
