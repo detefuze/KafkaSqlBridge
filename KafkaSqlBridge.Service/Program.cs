@@ -22,8 +22,10 @@ var pmsSettings = builder.Configuration.GetSection("PMSDatabaseSettings").Get<PM
 var connectionString = pmsSettings?.ConnectionString;
 
 // Регистрируем сервисы и WorkerService
-builder.Services.AddSingleton<IMessageHandler, ProductMessageHandler>();
-builder.Services.AddSingleton<IMessageHandler, MaterialMessageHandler>();
+//builder.Services.AddSingleton<IMessageHandler, ProductMessageHandler>();
+//builder.Services.AddSingleton<IMessageHandler, MaterialMessageHandler>();
+builder.Services.AddSingleton<IMessageHandler, ProductBatchHandler>();
+builder.Services.AddSingleton<IMessageHandler, MaterialBatchHandler>();
 builder.Services.AddSingleton<IKafkaConsumerService, KafkaConsumerService>();
 
 builder.Services.AddSingleton<IDatabaseService>(sp => {

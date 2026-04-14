@@ -20,10 +20,9 @@ public class KafkaConsumerService : IKafkaConsumerService, IDisposable
     private List<Task> _consumingTasks;
     private CancellationTokenSource? _cancellationTokenSource;
     private readonly Stopwatch _stopwatch = new(); // счетчик времени обработки сообщения
-    private long _totalMs;
+    
 
 
-  
     public KafkaConsumerService(
         ILogger<KafkaConsumerService> logger,
         IOptions<KafkaSettings> kafkaSettings,
@@ -81,15 +80,13 @@ public class KafkaConsumerService : IKafkaConsumerService, IDisposable
 
     public async Task StartConsumingAsync(CancellationToken cancellationToken)
     {
+        _stopwatch.Restart();
         _logger.LogInformation("Старт Kafka консьюмера, прослушивание топиков: {Topics}", string.Join(", ", _kafkaSettings.Topics));
-
-        // Подписка на топики из конфигурации
-        //_consumer.Subscribe(_kafkaSettings.Topics);
 
         _cancellationTokenSource = CancellationTokenSource
             .CreateLinkedTokenSource(cancellationToken);
 
-        // Запуск задач для каждого консьюмера
+        // Запуск задач 
         foreach (var consumer in _consumers)
         {
             var task = Task.Run(() => ConsumeMessages(consumer, _cancellationTokenSource.Token));
@@ -116,8 +113,8 @@ public class KafkaConsumerService : IKafkaConsumerService, IDisposable
 
                     if (consumeResult.IsPartitionEOF)
                     {
-                        _logger.LogTrace("Достигнут конец партиции {Topic}:{Partition}", consumeResult.Topic, consumeResult.Partition);
-                        continue;
+                        _logger.LogInformation("Достигнут конец партиции {Topic}:{Partition}", consumeResult.Topic, consumeResult.Partition);
+                        break;
                     }
 
                     await ProcessConsumeResult(consumer, consumeResult, cancellationToken);
@@ -138,35 +135,26 @@ public class KafkaConsumerService : IKafkaConsumerService, IDisposable
         {
             _logger.LogInformation("Остановка консьюмера");
             consumer.Close();
+            _logger.LogDebug("Время обработки всех сообщений: {totalMS}", _stopwatch.ElapsedMilliseconds);
         }
     }
 
     private async Task ProcessConsumeResult(IConsumer<Ignore, string> consumer, ConsumeResult<Ignore, string> consumeResult,
         CancellationToken cancellationToken)
     {
-        _stopwatch.Restart();
         
         var topic = consumeResult.Topic;
-
-        //_logger.LogDebug("Получено сообщение из топика {Topic}, партиции [{Partition}] @{Offset}",
-        //    consumeResult.Topic,
-        //    consumeResult.Partition,
-        //    consumeResult.Offset);
 
         try
         {
             if (_handlers.TryGetValue(topic, out var handler))
             {
-                //_logger.LogTrace("Найден обработчик {Handler} для топика {Topic}",
-                //    handler.GetType().Name, topic);
-
                 // Передача сообщения в хендлер
                 await handler.HandleAsync(consumeResult.Message.Value, cancellationToken);
 
                 if (!_kafkaSettings.EnableAutoCommit)
                 {
-                    consumer.StoreOffset(consumeResult); // для теста
-                    // _consumer.Commit(consumeResult); // сохранение offset
+                    consumer.StoreOffset(consumeResult); 
                     _logger.LogTrace("Offset {Offset} сохранен для топика {Topic}", consumeResult.Offset, topic);
                 }
             }
@@ -174,13 +162,6 @@ public class KafkaConsumerService : IKafkaConsumerService, IDisposable
             {
                 _logger.LogWarning("Нет зарегистрированного обработчика для топика {Topic}", topic);
             }
-            _stopwatch.Stop();
-            _logger.LogInformation("Полное время обработки сообщения {Topic} : {Offset}: {ElapsedMs} мс",
-                        consumeResult.Topic,
-                        consumeResult.Offset,
-                        _stopwatch.ElapsedMilliseconds);
-
-            _totalMs += _stopwatch.ElapsedMilliseconds;
         }
         catch (JsonException ex)
         {
@@ -195,13 +176,14 @@ public class KafkaConsumerService : IKafkaConsumerService, IDisposable
     // Остановка потребления сообщений
     public void StopConsuming()
     {
+        _stopwatch.Stop();
+
         _cancellationTokenSource?.Cancel();
         _logger.LogInformation("Остановка Kafka консьюмеров...");
 
         Task.WhenAll(_consumingTasks).Wait(TimeSpan.FromSeconds(10));
 
-        _logger.LogInformation("Среднее время обработки всех сообщений: {totalMS}", _totalMs);
-        _totalMs = 0;
+        _logger.LogInformation("Время обработки всех сообщений: {totalMS}", _stopwatch.ElapsedMilliseconds);
     }
 
     // Освобождение ресурсов

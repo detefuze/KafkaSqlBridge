@@ -1,6 +1,7 @@
 ﻿namespace KafkaSqlBridge.Core.Models;
+using KafkaSqlBridge.Core.Interfaces;
 
-public class ProductMessage
+public class ProductMessage : IValidatable
 {
     public string product_code { get; set; } = string.Empty;
 

@@ -7,7 +7,9 @@ namespace KafkaSqlBridge.Core.Interfaces
 {
     public interface IDatabaseService
     {
-        Task ProcessProductMessageAsync(ProductMessage product);
-        Task ProcessMaterialMessageAsync(MaterialMessage product);
+        Task ProcessProductBatchAsync(List<ProductMessage> batch);
+        Task ProcessMaterialBatchAsync(List<MaterialMessage> batch);
+        //Task ProcessProductMessageAsync(ProductMessage product);
+        //Task ProcessMaterialMessageAsync(MaterialMessage material);
     }
 }

@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("KafkaSqlBridge.Core")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6062fd71658bbe8357828b8d559f9c412a362546")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5b919b31487da2f244ce9066a54b942b0f447c2f")]
 [assembly: System.Reflection.AssemblyProductAttribute("KafkaSqlBridge.Core")]
 [assembly: System.Reflection.AssemblyTitleAttribute("KafkaSqlBridge.Core")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
