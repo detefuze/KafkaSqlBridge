@@ -3,6 +3,26 @@
   "WorkspaceRootPath": "C:\\Projects\\C#\\KafkaBridgeLayer\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{89D9AC31-24FE-52A6-E68A-3F81EF19EA0E}|KafkaSqlBridge.Core\\KafkaSqlBridge.Core.csproj|c:\\projects\\c#\\kafkabridgelayer\\kafkasqlbridge.core\\configuration\\kafkasettings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{89D9AC31-24FE-52A6-E68A-3F81EF19EA0E}|KafkaSqlBridge.Core\\KafkaSqlBridge.Core.csproj|solutionrelative:kafkasqlbridge.core\\configuration\\kafkasettings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{89D9AC31-24FE-52A6-E68A-3F81EF19EA0E}|KafkaSqlBridge.Core\\KafkaSqlBridge.Core.csproj|c:\\projects\\c#\\kafkabridgelayer\\kafkasqlbridge.core\\configuration\\pmsdatabasesettings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{89D9AC31-24FE-52A6-E68A-3F81EF19EA0E}|KafkaSqlBridge.Core\\KafkaSqlBridge.Core.csproj|solutionrelative:kafkasqlbridge.core\\configuration\\pmsdatabasesettings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{89D9AC31-24FE-52A6-E68A-3F81EF19EA0E}|KafkaSqlBridge.Core\\KafkaSqlBridge.Core.csproj|c:\\projects\\c#\\kafkabridgelayer\\kafkasqlbridge.core\\handlers\\productbatchhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{89D9AC31-24FE-52A6-E68A-3F81EF19EA0E}|KafkaSqlBridge.Core\\KafkaSqlBridge.Core.csproj|solutionrelative:kafkasqlbridge.core\\handlers\\productbatchhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{89D9AC31-24FE-52A6-E68A-3F81EF19EA0E}|KafkaSqlBridge.Core\\KafkaSqlBridge.Core.csproj|c:\\projects\\c#\\kafkabridgelayer\\kafkasqlbridge.core\\interfaces\\imessagehandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{89D9AC31-24FE-52A6-E68A-3F81EF19EA0E}|KafkaSqlBridge.Core\\KafkaSqlBridge.Core.csproj|solutionrelative:kafkasqlbridge.core\\interfaces\\imessagehandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{89D9AC31-24FE-52A6-E68A-3F81EF19EA0E}|KafkaSqlBridge.Core\\KafkaSqlBridge.Core.csproj|c:\\projects\\c#\\kafkabridgelayer\\kafkasqlbridge.core\\abstracts\\basebatchhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{89D9AC31-24FE-52A6-E68A-3F81EF19EA0E}|KafkaSqlBridge.Core\\KafkaSqlBridge.Core.csproj|solutionrelative:kafkasqlbridge.core\\abstracts\\basebatchhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{89D9AC31-24FE-52A6-E68A-3F81EF19EA0E}|KafkaSqlBridge.Core\\KafkaSqlBridge.Core.csproj|c:\\projects\\c#\\kafkabridgelayer\\kafkasqlbridge.core\\services\\kafkaconsumerservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{89D9AC31-24FE-52A6-E68A-3F81EF19EA0E}|KafkaSqlBridge.Core\\KafkaSqlBridge.Core.csproj|solutionrelative:kafkasqlbridge.core\\services\\kafkaconsumerservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -11,20 +31,12 @@
       "RelativeMoniker": "D:0:0:{89D9AC31-24FE-52A6-E68A-3F81EF19EA0E}|KafkaSqlBridge.Core\\KafkaSqlBridge.Core.csproj|solutionrelative:kafkasqlbridge.core\\handlers\\materialbatchhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{89D9AC31-24FE-52A6-E68A-3F81EF19EA0E}|KafkaSqlBridge.Core\\KafkaSqlBridge.Core.csproj|c:\\projects\\c#\\kafkabridgelayer\\kafkasqlbridge.core\\handlers\\productbatchhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{89D9AC31-24FE-52A6-E68A-3F81EF19EA0E}|KafkaSqlBridge.Core\\KafkaSqlBridge.Core.csproj|solutionrelative:kafkasqlbridge.core\\handlers\\productbatchhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{89D9AC31-24FE-52A6-E68A-3F81EF19EA0E}|KafkaSqlBridge.Core\\KafkaSqlBridge.Core.csproj|c:\\projects\\c#\\kafkabridgelayer\\kafkasqlbridge.core\\interfaces\\ikafkaconsumerservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{89D9AC31-24FE-52A6-E68A-3F81EF19EA0E}|KafkaSqlBridge.Core\\KafkaSqlBridge.Core.csproj|solutionrelative:kafkasqlbridge.core\\interfaces\\ikafkaconsumerservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{897B1463-1F70-6E4B-87A2-637934DFEF7B}|KafkaSqlBridge.Service\\KafkaSqlBridge.Service.csproj|c:\\projects\\c#\\kafkabridgelayer\\kafkasqlbridge.service\\worker.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{897B1463-1F70-6E4B-87A2-637934DFEF7B}|KafkaSqlBridge.Service\\KafkaSqlBridge.Service.csproj|solutionrelative:kafkasqlbridge.service\\worker.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{89D9AC31-24FE-52A6-E68A-3F81EF19EA0E}|KafkaSqlBridge.Core\\KafkaSqlBridge.Core.csproj|c:\\projects\\c#\\kafkabridgelayer\\kafkasqlbridge.core\\abstracts\\basebatchhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{89D9AC31-24FE-52A6-E68A-3F81EF19EA0E}|KafkaSqlBridge.Core\\KafkaSqlBridge.Core.csproj|solutionrelative:kafkasqlbridge.core\\abstracts\\basebatchhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{89D9AC31-24FE-52A6-E68A-3F81EF19EA0E}|KafkaSqlBridge.Core\\KafkaSqlBridge.Core.csproj|c:\\projects\\c#\\kafkabridgelayer\\kafkasqlbridge.core\\interfaces\\idatabaseservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -38,7 +50,7 @@
       "DocumentGroups": [
         {
           "DockedHeight": 261,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Bookmark",
@@ -46,7 +58,46 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "KafkaSettings.cs",
+              "DocumentMoniker": "C:\\Projects\\C#\\KafkaBridgeLayer\\KafkaSqlBridge.Core\\Configuration\\KafkaSettings.cs",
+              "RelativeDocumentMoniker": "KafkaSqlBridge.Core\\Configuration\\KafkaSettings.cs",
+              "ToolTip": "C:\\Projects\\C#\\KafkaBridgeLayer\\KafkaSqlBridge.Core\\Configuration\\KafkaSettings.cs",
+              "RelativeToolTip": "KafkaSqlBridge.Core\\Configuration\\KafkaSettings.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-14T09:21:10.828Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "PMSDatabaseSettings.cs",
+              "DocumentMoniker": "C:\\Projects\\C#\\KafkaBridgeLayer\\KafkaSqlBridge.Core\\Configuration\\PMSDatabaseSettings.cs",
+              "RelativeDocumentMoniker": "KafkaSqlBridge.Core\\Configuration\\PMSDatabaseSettings.cs",
+              "ToolTip": "C:\\Projects\\C#\\KafkaBridgeLayer\\KafkaSqlBridge.Core\\Configuration\\PMSDatabaseSettings.cs",
+              "RelativeToolTip": "KafkaSqlBridge.Core\\Configuration\\PMSDatabaseSettings.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-14T09:21:09.931Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 3,
+              "Title": "IMessageHandler.cs",
+              "DocumentMoniker": "C:\\Projects\\C#\\KafkaBridgeLayer\\KafkaSqlBridge.Core\\Interfaces\\IMessageHandler.cs",
+              "RelativeDocumentMoniker": "KafkaSqlBridge.Core\\Interfaces\\IMessageHandler.cs",
+              "ToolTip": "C:\\Projects\\C#\\KafkaBridgeLayer\\KafkaSqlBridge.Core\\Interfaces\\IMessageHandler.cs",
+              "RelativeToolTip": "KafkaSqlBridge.Core\\Interfaces\\IMessageHandler.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-14T09:21:06.363Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
               "Title": "IKafkaConsumerService.cs",
               "DocumentMoniker": "C:\\Projects\\C#\\KafkaBridgeLayer\\KafkaSqlBridge.Core\\Interfaces\\IKafkaConsumerService.cs",
               "RelativeDocumentMoniker": "KafkaSqlBridge.Core\\Interfaces\\IKafkaConsumerService.cs",
@@ -54,12 +105,11 @@
               "RelativeToolTip": "KafkaSqlBridge.Core\\Interfaces\\IKafkaConsumerService.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAABCAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-07T16:02:20.809Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-07T16:02:20.809Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 8,
               "Title": "Worker.cs",
               "DocumentMoniker": "C:\\Projects\\C#\\KafkaBridgeLayer\\KafkaSqlBridge.Service\\Worker.cs",
               "RelativeDocumentMoniker": "KafkaSqlBridge.Service\\Worker.cs",
@@ -67,8 +117,7 @@
               "RelativeToolTip": "KafkaSqlBridge.Service\\Worker.cs",
               "ViewState": "AgIAABAAAAAAAAAAAAAQwB0AAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-07T16:01:10.065Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-07T16:01:10.065Z"
             },
             {
               "$type": "Document",
@@ -85,7 +134,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 6,
               "Title": "MaterialBatchHandler.cs",
               "DocumentMoniker": "C:\\Projects\\C#\\KafkaBridgeLayer\\KafkaSqlBridge.Core\\Handlers\\MaterialBatchHandler.cs",
               "RelativeDocumentMoniker": "KafkaSqlBridge.Core\\Handlers\\MaterialBatchHandler.cs",
@@ -93,37 +142,37 @@
               "RelativeToolTip": "KafkaSqlBridge.Core\\Handlers\\MaterialBatchHandler.cs",
               "ViewState": "AgIAAAcAAAAAAAAAAAAAABwAAAAmAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-07T11:12:37.104Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-07T11:12:37.104Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 5,
               "Title": "KafkaConsumerService.cs",
               "DocumentMoniker": "C:\\Projects\\C#\\KafkaBridgeLayer\\KafkaSqlBridge.Core\\Services\\KafkaConsumerService.cs",
               "RelativeDocumentMoniker": "KafkaSqlBridge.Core\\Services\\KafkaConsumerService.cs",
               "ToolTip": "C:\\Projects\\C#\\KafkaBridgeLayer\\KafkaSqlBridge.Core\\Services\\KafkaConsumerService.cs",
               "RelativeToolTip": "KafkaSqlBridge.Core\\Services\\KafkaConsumerService.cs",
-              "ViewState": "AgIAAL0AAAAAAAAAAAAwwMkAAAApAAAAAAAAAA==",
+              "ViewState": "AgIAALcAAAAAAAAAAADwv7kAAABsAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-04-07T12:17:59.138Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 4,
               "Title": "BaseBatchHandler.cs",
               "DocumentMoniker": "C:\\Projects\\C#\\KafkaBridgeLayer\\KafkaSqlBridge.Core\\Abstracts\\BaseBatchHandler.cs",
               "RelativeDocumentMoniker": "KafkaSqlBridge.Core\\Abstracts\\BaseBatchHandler.cs",
               "ToolTip": "C:\\Projects\\C#\\KafkaBridgeLayer\\KafkaSqlBridge.Core\\Abstracts\\BaseBatchHandler.cs",
               "RelativeToolTip": "KafkaSqlBridge.Core\\Abstracts\\BaseBatchHandler.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFQAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAFEAAAAAAAAAAAAowFQAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-06T11:57:44.684Z"
+              "WhenOpened": "2026-04-06T11:57:44.684Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 9,
               "Title": "IDatabaseService.cs",
               "DocumentMoniker": "C:\\Projects\\C#\\KafkaBridgeLayer\\KafkaSqlBridge.Core\\Interfaces\\IDatabaseService.cs",
               "RelativeDocumentMoniker": "KafkaSqlBridge.Core\\Interfaces\\IDatabaseService.cs",

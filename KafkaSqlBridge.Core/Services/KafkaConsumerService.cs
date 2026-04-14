@@ -191,6 +191,16 @@ public class KafkaConsumerService : IKafkaConsumerService, IDisposable
     {
        foreach (var consumer in _consumers)
         {
+            try
+            {
+                consumer.Commit();
+            }
+            catch (Exception ex)
+            {
+                // Логируем, но не прерываем
+                _logger?.LogWarning(ex, "Ошибка при коммите offset для consumer'а");
+            }
+            consumer.Commit();
             consumer.Dispose();
         }
         _cancellationTokenSource?.Dispose();
